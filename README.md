@@ -24,8 +24,7 @@ This script generates a detailed report of video durations found within a specif
   - `openpyxl`
 
 Install dependencies using:
-```
-bash
+```bash
 pip install pandas moviepy openpyxl
 ```
 
@@ -35,8 +34,7 @@ pip install pandas moviepy openpyxl
 
 ### 1. Run the Script
 Execute the script via terminal or an IDE:
-```
-bash
+```bash
 python video_mapping.py
 ```
 
@@ -53,10 +51,64 @@ When you run the script, you will be asked to provide the following inputs:
   - `N`: etc. 
 
 - **Exclude Paths**  
-  List of folders to exclude from the scan, separated by commas (e.g., `path1,path2`). Leave blank if none.
+  List of folders to exclude from the scan, separated by commas (e.g., `path1, path2`). Leave blank if none.
 
 - **Export Report**  
   Optionally save the results in an Excel file. The report is saved in the root folder as `video_report.xlsx`.
+
+Example:
+```plaintext
+Enter the root folder path: C:\Users\Videos
+Enter the level of subfolders you want to include (0 for root, 1 for subfolders, etc.): 1
+Enter the paths of folders to exclude (separated by commas): C:\Users\Videos\FolderA, C:\Users\Videos\FolderB
+```
+
+---
+
+### 3. Results and Excel Report
+After processing, the script:
+- Displays the results in the console:
+  - **Folder Name**
+  - **Video File Name**
+  - **Individual Video Duration**
+  - **Total and Average Durations by Folder**
+  - **Total and Average Durations for All Videos**
+  
+- Prompts whether to save the report in Excel format:
+```plaintext
+Do you want to create the report in Excel format? (y):
+```
+
+If confirmed, the Excel file is saved as `video_report.xlsx` in the root folder.
+
+---
+
+### 4. Example Outputs
+
+#### Console Output:
+```plaintext
+Results Report:
++-----------------+----------------+----------------+-----------------------+-------------------------+
+| Folder Name     | File Name      | Video Duration | Total Time in Folder | Average Time in Folder |
++-----------------+----------------+----------------+-----------------------+-------------------------+
+| Root/           | video1.mp4    | 00:05:30       | 00:10:30             | 00:05:15               |
+| Root/Subfolder/ | video2.mkv    | 00:05:00       | 00:10:00             | 00:05:00               |
++-----------------+----------------+----------------+-----------------------+-------------------------+
+
+Total time for all videos: 01:00:00
+Average time for all videos: 00:05:15
+```
+
+#### Excel Output:
+The generated Excel file contains:
+- **Columns**: Folder Name, File Name, Video Duration, Total Time in Folder, Average Time in Folder, Total Average Time, and Total Time.
+- Properly formatted cells with merged ranges for aggregated durations.
+- Auto-adjusted column widths for improved readability.
+
+| Folder Name    | File Name         | Video Duration | Total Time in Folder | Average Time in Folder | Total Average Time | Total Time   |
+|----------------|-------------------|----------------|-----------------------|-------------------------|--------------------|--------------|
+| Root/          | video1.mp4       | 00:05:30       | 00:10:30             | 00:05:15               | 00:05:15           | 01:00:00     |
+| Root/Subfolder | video2.mkv       | 00:05:00       | 00:10:00             | 00:05:00               | 00:05:15           | 01:00:00     |
 
 ---
 
@@ -67,8 +119,7 @@ When you run the script, you will be asked to provide the following inputs:
 
 - **Missing Dependencies**  
   If a required package is not installed, install it using `pip`. For example:
-```
-bash
+```bash
 pip install moviepy
 ```
 
