@@ -34,22 +34,23 @@ def map_videos(root_path, exclude_paths=[], level=0):
     results = []
     exclude_paths = [os.path.abspath(p.strip()) for p in exclude_paths if p.strip()]
 
-    for root, dirs, files in os.walk(root_path):
-        # Ignore excluded paths
-        if any(os.path.commonpath([root, ex]) == ex for ex in exclude_paths):
-            continue
+    for root_path in [os.path.abspath(p.strip()) for p in root_paths if p.strip()]:
+        for root, dirs, files in os.walk(root_path):
+            # Ignore excluded paths
+            if any(os.path.commonpath([root, ex]) == ex for ex in exclude_paths):
+                continue
 
-        current_level = root[len(root_path):].count(os.sep)
-        if current_level >= level:
-            videos = [os.path.join(root, f) for f in files if f.endswith(tuple(VIDEO_EXTENSIONS))]
-            durations = calculate_durations(videos)
+            current_level = root[len(root_path):].count(os.sep)
+            if current_level >= level:
+                videos = [os.path.join(root, f) for f in files if f.endswith(tuple(VIDEO_EXTENSIONS))]
+                durations = calculate_durations(videos)
 
-            for i, video in enumerate(videos):
-                results.append({
-                    "Folder Name": os.path.relpath(root, root_path).replace("\\", "/"),
-                    "File Name": os.path.basename(video),
-                    "Video Duration": durations[i] if i < len(durations) else None
-                })
+                for i, video in enumerate(videos):
+                    results.append({
+                        "Folder Name": f"{os.path.basename(root_path)}\\{os.path.relpath(root, root_path) if os.path.relpath(root, root_path) != '.' else ''}".rstrip("\\"),
+                        "File Name": os.path.basename(video),
+                        "Video Duration": durations[i] if i < len(durations) else None
+                    })
 
     df = pd.DataFrame(results)
 
@@ -191,12 +192,12 @@ def save_with_merged_cells(df, output_path):
     wb.save(output_path)
 
 # User inputs
-root_path = input("Enter the root folder path: ")
+root_paths = input("Enter the root folder paths (separated by commas): ").split(',')
 level = int(input("Enter the level of subfolders you want to include (0 for root, 1 for subfolders, etc.): ") or 0)
 exclude_paths = input("Enter the paths of folders to exclude (separated by commas): ").split(',')
 
 # Map all videos from the input foler
-df_result, total_time, avg_time = map_videos(root_path, exclude_paths, level)
+df_result, total_time, avg_time = map_videos(root_paths, exclude_paths, level)
 
 # Display the result
 print("\nResults Report:")
@@ -216,6 +217,6 @@ create_report = (input("\nDo you want to create the report in Excel format? (y):
 
 # Ask the user if they want to create the report
 if create_report == 'y':
-    output_path = os.path.join(root_path, "video_report.xlsx")
+    output_path = os.path.join(root_paths[0], "video_report.xlsx")
     save_with_merged_cells(df_result, output_path)
     print(f"Report saved to: {output_path}")

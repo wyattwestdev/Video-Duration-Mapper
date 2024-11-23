@@ -1,12 +1,12 @@
 # Video Duration Mapper
 
-This script generates a detailed report of video durations found within a specified folder and its subdirectories. The report aggregates video durations by folder, calculates total and average durations, and formats the results in an Excel file with professional formatting.
+This script generates a detailed report of video durations found within specified directories and their subdirectories. The report aggregates video durations by folder, calculates total and average durations, and formats the results in an Excel file with professional formatting.
 
 ---
 
 ## Features
 
-- Scans a folder for video files (e.g., `.mp4`, `.mkv`, `.avi`).
+- Scans multiple directories provided by the user for video files (e.g., `.mp4`, `.mkv`, `.avi`).
 - Calculates individual, total, and average durations.
 - Allows exclusion of specific folders from the scan.
 - Supports hierarchical folder mapping up to specified levels.
@@ -41,24 +41,24 @@ python video_mapping.py
 ### 2. Input Prompts
 When you run the script, you will be asked to provide the following inputs:
 
-- **Root Folder Path**  
-  The directory where your videos are stored. The script will scan this folder and its subfolders.
+- **Directories to Scan**  
+  A comma-separated list of directories where your videos are stored. The script will scan these directories and their subdirectories.
 
 - **Subfolder Level**  
   Specify how deep the script should scan.  
-  - `0`: Only the root folder.  
-  - `1`: Root and first-level subfolders. 
-  - `N`: etc. 
+  - `0`: Only the specified directories.  
+  - `1`: Only their first-level subdirectories.  
+  - `N`: And so on.
 
 - **Exclude Paths**  
   List of folders to exclude from the scan, separated by commas (e.g., `path1, path2`). Leave blank if none.
 
 - **Export Report**  
-  Optionally save the results in an Excel file. The report is saved in the root folder as `video_report.xlsx`.
+  Optionally save the results in an Excel file. The report is saved in the first input root folder as `video_report.xlsx`.
 
 Example:
 ```plaintext
-Enter the root folder path: C:\Users\Videos
+Enter the directories to scan (separated by commas): C:\Users\Videos,C:\Projects\Media
 Enter the level of subfolders you want to include (0 for root, 1 for subfolders, etc.): 1
 Enter the paths of folders to exclude (separated by commas): C:\Users\Videos\FolderA, C:\Users\Videos\FolderB
 ```
@@ -73,13 +73,13 @@ After processing, the script:
   - **Individual Video Duration**
   - **Total and Average Durations by Folder**
   - **Total and Average Durations for All Videos**
-  
+
 - Prompts whether to save the report in Excel format:
 ```plaintext
 Do you want to create the report in Excel format? (y):
 ```
 
-If confirmed, the Excel file is saved as `video_report.xlsx` in the root folder.
+If confirmed, the Excel file is saved as `video_report.xlsx` in the first input root folder.
 
 ---
 
@@ -91,8 +91,8 @@ Results Report:
 +-----------------+----------------+----------------+-----------------------+-------------------------+
 | Folder Name     | File Name      | Video Duration | Total Time in Folder | Average Time in Folder |
 +-----------------+----------------+----------------+-----------------------+-------------------------+
-| Root/           | video1.mp4    | 00:05:30       | 00:10:30             | 00:05:15               |
-| Root/Subfolder/ | video2.mkv    | 00:05:00       | 00:10:00             | 00:05:00               |
+| Videos/         | video1.mp4    | 00:05:30       | 00:10:30             | 00:05:15               |
+| Media/Subfolder | video2.mkv    | 00:05:00       | 00:10:00             | 00:05:00               |
 +-----------------+----------------+----------------+-----------------------+-------------------------+
 
 Total time for all videos: 01:00:00
@@ -107,8 +107,8 @@ The generated Excel file contains:
 
 | Folder Name    | File Name         | Video Duration | Total Time in Folder | Average Time in Folder | Total Average Time | Total Time   |
 |----------------|-------------------|----------------|-----------------------|-------------------------|--------------------|--------------|
-| Root/          | video1.mp4       | 00:05:30       | 00:10:30             | 00:05:15               | 00:05:15           | 01:00:00     |
-| Root/Subfolder | video2.mkv       | 00:05:00       | 00:10:00             | 00:05:00               | 00:05:15           | 01:00:00     |
+| Videos/        | video1.mp4       | 00:05:30       | 00:10:30             | 00:05:15               | 00:05:15           | 01:00:00     |
+| Media/Subfolder| video2.mkv       | 00:05:00       | 00:10:00             | 00:05:00               | 00:05:15           | 01:00:00     |
 
 ---
 
